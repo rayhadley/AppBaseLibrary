@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <TextView
+        android:id="@+id/dialog_tv_title"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+         
+        android:textColor="@color/color666666"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dialog_tv_sure"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_sure_selector"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="确认"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>

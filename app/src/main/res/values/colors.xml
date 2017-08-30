@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--<color name="color_base">#E72D2D</color>-->
+    <color name="color_base">#E72</color>
+    <color name="color_base_p">#f63426</color>
+    <color name="bg">#F5E7E7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="colorcecece">#cecece</color>
+    <color name="color999999">#999999</color>
+    <color name="color666666">#666666</color>
+    <color name="color333333">#333333</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+
+    <!-- 以下 内容 有时间再处理 -->
+
+    <color name="text_blue">#0076ff</color>
+    <color name="text_defalut">#323844</color>
+    <color name="h_selector">#cccccc</color>
+
+    <color name="black_40alpha">#64000000</color>
+    <color name="backgroud">#eeeeee</color>
+    <color name="backgroud_grey">#f2f2f2</color>
+    <color name="backgroud_black">#CC000000</color>
+    <color name="backgroud_me">#f3f4f6</color>
+    <color name="titleColor">#333333</color>
+    <color name="contentColor">#4a4a4a</color>
+    <color name="tab_red">#da251c</color>
+    <color name="tab_selected">#323844</color>
+    <color name="text_grey">#777777</color>
+    <color name="pink">#55FF0000</color>
+    <color name="edit_hint">#cccccc</color>
+    <color name="login_btn_red">#db261d</color>
+    <color name="login_btn_wechat">#02ba00</color>
+
+    <!--login_below_text-->
+    <color name="login_below_text">#323844</color>
+
+    <!--register xeplain text-->
+    <color name="register_explain_text">#da251c</color>
+    <color name="register_text_below">#323844</color>
+    <color name="register_text">#4a4a4a</color>
+    <!--个人中心-->
+    <color name="me_red">#da251c</color>
+    <!--商城频道-->
+    <color name="channel_product_title">#000000</color>
+    <color name="channel_product_coment">#333333</color>
+    <!--我的提问-->
+    <color name="question_tab_select">#8d8d8d</color>
+    <color name="question_product_title">#010101</color>
+
+    <color name="color_dark_red">#D84B2D</color><!-- 暗红 -->
+    <color name="color_dark_red2">#CA272A</color><!-- 暗红 -->
+    <color name="red3">#F03B26</color>
+</resources>
