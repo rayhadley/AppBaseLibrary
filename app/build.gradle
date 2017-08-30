@@ -38,17 +38,17 @@ dependencies {
     //        exclude group:'com.nineoldandroids'
     //    }
 }
-uploadArchives{
-    repositories{
-        mavenDeployer{
-            //maven存放路径
-            def deployPath = file(getProperty('aar.appbaselibrary'))
-            repository(url:"file://${deployPath.absolutePath}")
-            pom.project{
-                groupId = GROUP_ID
-                artifactId = ARTIFACT_ID
-                version = LIBRARY_VERSION
-            }
-        }
-    }
-}
+//uploadArchives{
+//    repositories{
+//        mavenDeployer{
+//            //maven存放路径
+//            def deployPath = file(getProperty('aar.appbaselibrary'))
+//            repository(url:"file://${deployPath.absolutePath}")
+//            pom.project{
+//                groupId = GROUP_ID
+//                artifactId = ARTIFACT_ID
+//                version = LIBRARY_VERSION
+//            }
+//        }
+//    }
+//}
