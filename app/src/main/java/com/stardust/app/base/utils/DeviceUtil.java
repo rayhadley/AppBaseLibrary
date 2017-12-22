@@ -9,9 +9,12 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.PowerManager;
+import android.os.StatFs;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -217,5 +220,80 @@ public class DeviceUtil {
         Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+phoneNum));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    /**
+     * 获得SD卡总大小
+     *
+     * @return
+     */
+    public static String getSDTotalSize(Context context) {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return Formatter.formatFileSize(context, blockSize * totalBlocks);
+    }
+
+    /**
+     * 获得SD卡总大小
+     *
+     * @return
+     */
+    public static long getSDTotalSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return blockSize * totalBlocks;
+    }
+    /**
+     * 获得sd卡剩余容量，即可用大小
+     *
+     * @return
+     */
+    public static String getSDAvailableSize(Context context) {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return Formatter.formatFileSize(context, blockSize * availableBlocks);
+    }
+
+    /**
+     * 获得sd卡剩余容量，即可用大小
+     *
+     * @return
+     */
+    public static long getSDAvailableSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return blockSize * availableBlocks;
+    }
+    /**
+     * 获得机身内存总大小
+     *
+     * @return
+     */
+    public static String getRomTotalSize(Context context) {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return Formatter.formatFileSize(context, blockSize * totalBlocks);
+    }
+    /**
+     * 获得机身可用内存
+     *
+     * @return
+     */
+    public static String getRomAvailableSize(Context context) {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return Formatter.formatFileSize(context, blockSize * availableBlocks);
     }
 }

@@ -1,6 +1,7 @@
 package com.stardust.app.base.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -113,7 +115,6 @@ public class ImageUtil {
     }
 
     public static void displayCircleImage(final Context context, String url, final ImageView imageView) {
-
         ImageLoader.getInstance().loadImage(url, getDisplayImageOptions(), new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
@@ -659,6 +660,15 @@ public class ImageUtil {
         Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(videoUrl, MediaStore.Video.Thumbnails.MICRO_KIND);
         return bitmap;
     }
+
+    public static Bitmap getVideoThumbnail(String videoPath, int width, int height) {
+        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, MediaStore.Video.Thumbnails.MICRO_KIND);
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        return bitmap;
+    }
+
+
     /**
      *从视频url中获取第一正Bitmap
      * @param videoPath
@@ -676,9 +686,6 @@ public class ImageUtil {
      * */
     public static String getMediaFileTime(String mediaPath) {
         String duration = "";
-//        MediaMetadataRetriever media = new MediaMetadataRetriever();
-//        media.setDataSource(mediaPath);
-//        duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         MediaPlayer player = new MediaPlayer();
         try {
             player.setDataSource(mediaPath);  //recordingFilePath（）为音频文件的路径
@@ -694,6 +701,29 @@ public class ImageUtil {
         player.release();//记得释放资源
         return duration;
     }
+
+    /**
+     * 获取媒体文件时长(时间String  hh:mm:ss)
+     * */
+    public static String getMediaFileTime(Context context, String mediaPath) {
+        String duration = "";
+        Uri uri = Uri.fromFile(new File(mediaPath));
+        String[] videoCursorCols = new String[] { MediaStore.Video.Media._ID, MediaStore.Video.Media.DISPLAY_NAME, MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DURATION, MediaStore.Video.Media.ARTIST, MediaStore.Video.Media.ALBUM, MediaStore.Video.Media.RESOLUTION, MediaStore.Video.Media.MIME_TYPE, MediaStore.Video.Media.SIZE, MediaStore.Video.Media.DATA };
+
+        Cursor cursor = context.getContentResolver().query(uri, videoCursorCols, null, null, null);
+        Debug.show("cursor==null" + (cursor == null));
+        double durationTime= 0l;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            durationTime = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));//获取音频的时间
+            durationTime = cursor.getLong(3);
+        }
+
+        duration = TimeUtil.secToTime((int)durationTime/1000);
+        Log.d("ACETEST", "### duration: " + duration);
+        return duration;
+    }
+
     /**
      * 获取媒体文件时长(秒数)
      * */

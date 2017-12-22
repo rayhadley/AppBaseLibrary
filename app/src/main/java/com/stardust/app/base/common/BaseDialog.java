@@ -155,6 +155,10 @@ public class BaseDialog {
 		return this.dialog;
 	}
 
+	public void setCancelable(boolean cancelable) {
+		dialog.setCancelable(cancelable);
+	}
+
 	public interface ClickListener{
 		void onClick();
 	}

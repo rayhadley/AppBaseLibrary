@@ -5,6 +5,8 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 
+//import okhttp3.MediaType;
+//import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 import okio.ForwardingSource;
@@ -32,7 +34,7 @@ class ProgressResponseBody extends ResponseBody {
 
         try {
             return responseBody.contentLength();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
@@ -43,7 +45,7 @@ class ProgressResponseBody extends ResponseBody {
         if (bufferedSource == null) {
             try {
                 bufferedSource = Okio.buffer(source(responseBody.source()));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

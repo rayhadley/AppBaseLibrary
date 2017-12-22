@@ -8,6 +8,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stardust.app.base.R;
@@ -104,8 +116,17 @@ public abstract class BaseFragment extends Fragment {
 	protected void showProgressDialog(String message) {
 		if (dialog == null) {
 			dialog = dialogUtil.progressDialog(mContext, message, null);
+		} else {
+			((TextView)dialog.findViewById(R.id.tvMessage)).setText(message);
 		}
 		dialog.show();
+	}
+	protected void changeProgressDialogMessage(String message){
+		if (dialog != null) {
+			((TextView)dialog.findViewById(R.id.tvMessage)).setText(message);
+		} else {
+			showProgressDialog(message);
+		}
 	}
 	protected void dismissProgressDialog() {
 		if (dialog != null) {
@@ -128,5 +149,58 @@ public abstract class BaseFragment extends Fragment {
 			return true;
 		}
 		return false;
+	}
+
+	//===============================================================================================================
+	protected Button findButton(int... resId) {
+		return (Button)findView(resId);
+	}
+	protected EditText findEditText(int... resId) {
+		return (EditText)findView(resId);
+	}
+	protected TextView findTextView(int... resId) {
+		return (TextView)findView(resId);
+	}
+	protected ImageView findImageView(int... resId) {
+		return (ImageView)findView(resId);
+	}
+	protected ListView findListView(int... resId) {
+		return (ListView)findView(resId);
+	}
+	protected GridView findGridView(int... resId) {
+		return (GridView)findView(resId);
+	}
+	protected LinearLayout findLinearLayout(int... resId) {
+		return (LinearLayout)findView(resId);
+	}
+	protected RelativeLayout findRelativeLayout(int... resId) {
+		return (RelativeLayout)findView(resId);
+	}
+	protected Spinner findSpinner(int... resId) {
+		return (Spinner)findView(resId);
+	}
+	protected CheckBox findCheckBox(int... resId) {
+		return (CheckBox)findView(resId);
+	}
+	protected RadioGroup findRadioGroup(int... resId) {
+		return (RadioGroup)findView(resId);
+	}
+	protected RadioButton findRadioButton(int... resId) {
+		return (RadioButton)findView(resId);
+	}
+	protected View find(int... resId) {
+		return (View)findView(resId);
+	}
+
+	private View findView(int... resId) {
+		View view = null;
+		for (int id:resId) {
+			if (view == null) {
+				view = vgContainer.findViewById(id);
+			} else {
+				view = view.findViewById(id);
+			}
+		}
+		return view;
 	}
 }

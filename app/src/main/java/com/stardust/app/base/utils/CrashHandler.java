@@ -7,6 +7,7 @@ import android.os.Looper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Date;
 
 
 /**
@@ -96,17 +97,18 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Looper.prepare();  
 //                Toast.makeText(mContext, "程序出错啦:" + message, Toast.LENGTH_LONG).show();  
 //                可以只创建一个文件，以后全部往里面append然后发送，这样就会有重复的信息，个人不推荐
-                File dir = new File(Environment.getExternalStorageDirectory() + "/meiyijia/log/");
+                File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + mContext.getPackageName() + "/error_log/");
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                String fileName = "crash-" + System.currentTimeMillis()  + ".log";  
+                String fileName = "crash-" + TimeUtil.getTime(new Date().getTime(), "yyyy-MM-dd") + "-" + System.currentTimeMillis()  + ".log";
                 File file = new File(dir.getPath(), fileName);
                 try {
                     FileOutputStream fos = new FileOutputStream(file,true);
                     fos.write(message.getBytes());
                     for (int i = 0; i < stack.length; i++) {
                         fos.write(stack[i].toString().getBytes());
+                        fos.write("\r\n".getBytes());
                     }
                     fos.flush();
                     fos.close();
@@ -120,8 +122,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }  
    
     // TODO 使用HTTP Post 发送错误报告到服务器  这里不再赘述
-//    private void postReport(File file) {  
-//      在上传的时候还可以将该app的version，该手机的机型等信息一并发送的服务器，
-//      Android的兼容性众所周知，所以可能错误不是每个手机都会报错，还是有针对性的去debug比较好
-//    }  
+    private void postReport(File file) {
+      //在上传的时候还可以将该app的version，该手机的机型等信息一并发送的服务器，
+      //Android的兼容性众所周知，所以可能错误不是每个手机都会报错，还是有针对性的去debug比较好
+    }
 }

@@ -1,14 +1,20 @@
 package com.stardust.app.base.utils;
 
+import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+
+import static android.view.View.VISIBLE;
 
 /**
  * 界面切换跳转效果工具类 edit at 2012-8-30
@@ -55,7 +61,7 @@ public class AnimUtil {
 		translate.setAnimationListener(new AnimationListener(){
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				moveView.setVisibility(View.VISIBLE);
+				moveView.setVisibility(VISIBLE);
 			}
 			@Override
 			public void onAnimationRepeat(Animation animation) {}
@@ -77,7 +83,7 @@ public class AnimUtil {
 		leftIn.setAnimationListener(new AnimationListener(){
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				moveView.setVisibility(View.VISIBLE);
+				moveView.setVisibility(VISIBLE);
 				if(handler != null){
 					handler.sendEmptyMessage(-1);
 				}			
@@ -88,6 +94,54 @@ public class AnimUtil {
 			public void onAnimationStart(Animation animation) {}			
 		});
 	}
+	/**
+	 * 设置上滑进动画
+	 */
+	public static void pushUpIn(final View moveView, final int duration, final Handler handler){
+		float endY = 0f;
+		Animation leftIn = new TranslateAnimation(0.0f, 0.0f, -moveView.getHeight(), endY);
+		//leftIn.setInterpolator(new AccelerateInterpolator());
+		leftIn.setDuration(duration <= 0 ? 350:duration);
+		moveView.startAnimation(leftIn);
+		leftIn.setAnimationListener(new AnimationListener(){
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				moveView.setVisibility(VISIBLE);
+				if(handler != null){
+					handler.sendEmptyMessage(-1);
+				}
+			}
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+			@Override
+			public void onAnimationStart(Animation animation) {}
+		});
+	}
+
+	/**
+	 * 设置上滑出动画
+	 */
+	public static void pushUpOut(final View moveView, final int duration, final Handler handler){
+		float endY = 0f;
+		Animation leftOut = new TranslateAnimation(0.0f, 0.0f, endY, -moveView.getHeight());
+		//leftOut.setInterpolator(new AccelerateInterpolator());
+		leftOut.setDuration(duration <= 0 ? 350:duration);
+		leftOut.setAnimationListener(new AnimationListener(){
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				moveView.setVisibility(View.GONE);
+				if(handler != null){
+					handler.sendEmptyMessage(-2);
+				}
+			}
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+			@Override
+			public void onAnimationStart(Animation animation) {}
+		});
+		moveView.startAnimation(leftOut);
+	}
+
 	/**
 	 * 设置上滑出动画
 	 */
@@ -120,7 +174,7 @@ public class AnimUtil {
 		rightIn.setAnimationListener(new AnimationListener(){
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				moveView.setVisibility(View.VISIBLE);
+				moveView.setVisibility(VISIBLE);
 				if(handler != null){
 					handler.sendEmptyMessage(-1);
 				}	
@@ -199,7 +253,7 @@ public class AnimUtil {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// TODO Auto-generated method stub
-				view.setVisibility(View.VISIBLE);
+				view.setVisibility(VISIBLE);
 			}
 
 			@Override
@@ -231,4 +285,83 @@ public class AnimUtil {
 //		});
 //		view.startAnimation(alpha);
 //	}
+	/**
+	 * 向下滑动显示
+	 * @param view 需要显示的view
+	 * @param duration 动画时长 0 或者少于0 默认200毫秒
+	 * */
+	public static void downShow(final View view, final int duration) {
+		view.setVisibility(VISIBLE);
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				int panelHeight = view.getHeight();
+				ObjectAnimator.ofFloat(view, "translationY", -panelHeight, 0).setDuration(duration > 0 ? duration:200).start();
+			}
+		});
+	}
+	/**
+	 * 向上滑动隐藏
+	 * @param view 需要显示的view
+	 * @param duration 动画时长 0 或者少于0 默认200毫秒
+	 * */
+	public static void upHide(final View view, final int duration) {
+//		view.setVisibility(View.GONE);
+		int panelHeight = view.getHeight();
+		ObjectAnimator.ofFloat(view, "translationY", 0, -panelHeight).setDuration(duration > 0 ? duration:200).start();
+	}
+
+	/**
+	 * 向上滑动显示
+	 * @param view 需要显示的view
+	 * @param duration 动画时长 0 或者少于0 默认200毫秒
+	 * */
+	public static void upShow(final View view, final int duration) {
+		view.setVisibility(VISIBLE);
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				int panelHeight = view.getHeight();
+				ObjectAnimator.ofFloat(view, "translationY", panelHeight, 0).setDuration(duration > 0 ? duration:200).start();
+			}
+		});
+	}
+	/**
+	 * 向下滑动隐藏
+	 * @param view 需要显示的view
+	 * @param duration 动画时长 0 或者少于0 默认200毫秒
+	 * */
+	public static void downHide(final View view, final int duration) {
+//		view.setVisibility(View.GONE);
+		int panelHeight = view.getHeight();
+		ObjectAnimator.ofFloat(view, "translationY", 0, -panelHeight).setDuration(duration > 0 ? duration:200).start();
+	}
+
+
+	/**
+	 * 旋转箭头向上
+	 * @param iv 箭头ImageView
+	 * */
+	public static void rotateArrowUpAnimation(final ImageView iv) {
+		if (iv == null) return;
+		RotateAnimation animation = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		animation.setDuration(200);
+		animation.setFillAfter(true);
+		iv.startAnimation(animation);
+	}
+
+	/**
+	 * 旋转箭头向下
+	 * @param iv 箭头ImageView
+	 * */
+	public static void rotateArrowDownAnimation(final ImageView iv) {
+		if (iv == null) return;
+		RotateAnimation animation = new RotateAnimation(180f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		animation.setDuration(200);
+		animation.setFillAfter(true);
+		iv.startAnimation(animation);
+	}
+
 }

@@ -7,10 +7,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-//import okhttp3.Interceptor;
-//import okhttp3.Request;
-//import okhttp3.Response;
-
 public class HttpProgressInterceptor implements Interceptor {
 
     private final CopyOnWriteArrayList<ProgressListener> listeners = new CopyOnWriteArrayList<>();

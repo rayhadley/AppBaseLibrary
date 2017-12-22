@@ -12,9 +12,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +41,7 @@ import com.stardust.app.base.R;
  * @author 07shou
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnClickListener, ReloadInterface{
+	protected RelativeLayout rootView;
 	protected RelativeLayout rlTitle;
 	protected ImageView ivBack, ivRight;
 	protected TextView tvTitle, tvRight, tvRightNum, tvReload;
@@ -97,6 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	}
 
 	protected void initView() {
+		rootView = (RelativeLayout) findViewById(R.id.rootView);
 		rlTitle = (RelativeLayout) findViewById(R.id.base_in_title);
 		ivBack = (ImageView) findViewById(R.id.title_view_iv_left);
 		ivRight = (ImageView) findViewById(R.id.title_view_iv_right);
@@ -109,6 +120,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 		ivBack.setOnClickListener(this);
 		tvReload.setOnClickListener(this);
 
+	}
+
+	protected void setFitsSystemWindows(boolean fitsSystemWindows) {
+		rootView.setFitsSystemWindows(fitsSystemWindows);
 	}
 
 	protected void addContentView(int resId) {
@@ -142,6 +157,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 			dialog = dialogUtil.progressDialog(this, message, null);
 		}
 		dialog.show();
+	}
+	protected void changeProgressDialogMessage(String message){
+		if (dialog != null) {
+			((TextView)dialog.findViewById(R.id.tvMessage)).setText(message);
+		} else {
+			showProgressDialog(message);
+		}
 	}
 	protected void dismissProgressDialog() {
 		if (dialog != null) {
@@ -214,5 +236,57 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		super.onPrepareDialog(id, dialog, args);
+	}
+
+	//===============================================================================================================
+	protected Button findButton(int... resId) {
+		return (Button)findView(resId);
+	}
+	protected EditText findEditText(int... resId) {
+		return (EditText)findView(resId);
+	}
+	protected TextView findTextView(int... resId) {
+		return (TextView)findView(resId);
+	}
+	protected ImageView findImageView(int... resId) {
+		return (ImageView)findView(resId);
+	}
+	protected ListView findListView(int... resId) {
+		return (ListView)findView(resId);
+	}
+	protected GridView findGridView(int... resId) {
+		return (GridView)findView(resId);
+	}
+	protected LinearLayout findLinearLayout(int... resId) {
+		return (LinearLayout)findView(resId);
+	}
+	protected RelativeLayout findRelativeLayout(int... resId) {
+		return (RelativeLayout)findView(resId);
+	}
+	protected Spinner findSpinner(int... resId) {
+		return (Spinner)findView(resId);
+	}
+	protected CheckBox findCheckBox(int... resId) {
+		return (CheckBox)findView(resId);
+	}
+	protected RadioGroup findRadioGroup(int... resId) {
+		return (RadioGroup)findView(resId);
+	}
+	protected RadioButton findRadioButton(int... resId) {
+		return (RadioButton)findView(resId);
+	}
+	protected View find(int... resId) {
+		return (View)findView(resId);
+	}
+	private View findView(int... resId) {
+		View view = null;
+		for (int id:resId) {
+			if (view == null) {
+				view = findViewById(id);
+			} else {
+				view = view.findViewById(id);
+			}
+		}
+		return view;
 	}
 }

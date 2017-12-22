@@ -31,14 +31,28 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+
 /**
  * http://blog.csdn.net/lmj623565791/article/details/47911083
  * okHttp请求工具类
+ * OKHttp 2.7.5
  */
 public class OkHttpClientManager
 {
@@ -60,6 +74,28 @@ public class OkHttpClientManager
         mOkHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
         mDelivery = new Handler(Looper.getMainLooper());
         mGson = new Gson();
+
+        SSLContext sslContext;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+//            mOkHttpClient.setSocketFactory(  sslContext.getSocketFactory());
+            mOkHttpClient.setSslSocketFactory(sslContext.getSocketFactory());
+            mOkHttpClient.setHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    Debug.show("hostname:" + hostname);
+                    return true;
+                }
+            });
+
+        } catch (NoSuchAlgorithmException e) {
+            Debug.show("NoSuchAlgorithmException:" + e.getMessage());
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            Debug.show("KeyManagementException:" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static OkHttpClientManager getInstance()
