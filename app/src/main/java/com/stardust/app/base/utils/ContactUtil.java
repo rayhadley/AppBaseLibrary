@@ -25,6 +25,18 @@ public class ContactUtil {
     }
 
     /**
+     *
+     * */
+    public void syncContact(String name, String phoneNumber, String email, String company) {
+        if (name == null || name.trim().equals("")) return;
+        if (isExist(name)) {
+            updateContact(name, phoneNumber, email, company);
+        } else {
+            addContact(name, phoneNumber, email, company);
+        }
+    }
+
+    /**
      * 添加联系人到通讯录
      * */
     public void addContact(String name, String phoneNumber, String email, String company) {
