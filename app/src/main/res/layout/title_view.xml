@@ -67,5 +67,10 @@
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:visibility="invisible" />
-
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/edit_hint"/>
 </RelativeLayout>

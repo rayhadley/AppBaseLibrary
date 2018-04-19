@@ -8,6 +8,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.stardust.app.base.utils.Debug;
@@ -95,27 +96,20 @@ public class CustomWebView extends WebView{
                 }
                 super.onProgressChanged(view, newProgress);
             }
+
         });
 
-//        this.setWebViewClient(new WebViewClient(){
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//                return true;
-//            }
-//
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                if (webSettings.getLoadsImagesAutomatically()) {
-//                    webSettings.setLoadsImagesAutomatically(true);
-//                }
-//                CustomWebView.this.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
-//                super.onPageFinished(view, url);
-//                if (onPageLoadFinished != null) {
-//                    onPageLoadFinished.onLoadingFinish();
-//                }
-//            }
-//        });
+        //防止 加载url时自动跳转到自带浏览器
+        this.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+            }
+        });
 
     }
 

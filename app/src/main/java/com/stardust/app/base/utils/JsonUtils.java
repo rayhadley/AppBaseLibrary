@@ -34,7 +34,7 @@ public class JsonUtils {
      * @param classOfT
      * @return
      */
-    public static <T> Object fromJson(String json, Class<T> classOfT) {
+    public static <T> T fromJson(String json, Class<T> classOfT) {
         return gson.fromJson(json, (Type) classOfT);
     }
 
@@ -47,7 +47,7 @@ public class JsonUtils {
      * @param typeOfT
      * @return
      */
-    public static Object fromJson(String json, Type typeOfT) {
+    public static <T> T fromJson(String json, Type typeOfT) {
         return gson.fromJson(json, typeOfT);
     }
 }

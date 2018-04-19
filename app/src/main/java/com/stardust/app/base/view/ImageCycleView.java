@@ -72,6 +72,9 @@ public class ImageCycleView extends LinearLayout {
 	 */
 	private float mScale;
 
+	private int indicator_selected_res_id = 0;//指示器选中的资源id
+	private int indicator_unselect_res_id = 0;//指示器未选中的资源id
+
 	/**
 	 * @param context
 	 */
@@ -115,6 +118,11 @@ public class ImageCycleView extends LinearLayout {
 		mGroup = (ViewGroup) findViewById(R.id.viewGroup);
 	}
 
+	public void setIndicatorImageResource(int selectedResId, int unselectResId) {
+		this.indicator_selected_res_id = selectedResId;
+		this.indicator_unselect_res_id = unselectResId;
+	}
+
 	/**
 	 * 装填图片数据
 	 * 
@@ -137,9 +145,9 @@ public class ImageCycleView extends LinearLayout {
 			//mImageView.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
 			mImageViews[i] = mImageView;
 			if (i == 0) {
-				mImageViews[i].setBackgroundResource(R.drawable.ic_point_selected);
+				mImageViews[i].setBackgroundResource(getIndicateSelectedResId());
 			} else {
-				mImageViews[i].setBackgroundResource(R.drawable.ic_point);
+				mImageViews[i].setBackgroundResource(getIndicateUnselectedResId());
 			}
 			mGroup.addView(mImageViews[i]);
 		}
@@ -160,6 +168,19 @@ public class ImageCycleView extends LinearLayout {
 	 */
 	public void pushImageCycle() {
 		stopImageTimerTask();
+	}
+
+	private int getIndicateSelectedResId() {
+		if (this.indicator_selected_res_id == 0) {
+			return R.drawable.ic_point_selected;
+		}
+		return this.indicator_selected_res_id;
+	}
+	private int getIndicateUnselectedResId() {
+		if (this.indicator_unselect_res_id == 0) {
+			return R.drawable.ic_point;
+		}
+		return this.indicator_unselect_res_id;
 	}
 
 	/**
@@ -223,10 +244,10 @@ public class ImageCycleView extends LinearLayout {
 			// 设置图片滚动指示器背景
 			mImageIndex = index;
 			index -= 1;
-			mImageViews[index].setBackgroundResource(R.drawable.ic_point_selected);
+			mImageViews[index].setBackgroundResource(getIndicateSelectedResId());
 			for (int i = 0; i < mImageViews.length; i++) {
 				if (index != i) {
-					mImageViews[i].setBackgroundResource(R.drawable.ic_point);
+					mImageViews[i].setBackgroundResource(getIndicateUnselectedResId());
 				}
 			}
 
@@ -290,7 +311,7 @@ public class ImageCycleView extends LinearLayout {
 					mImageCycleViewListener.onImageClick(position, v);
 				}
 			});
-			imageView.setTag(imageUrl);
+//			imageView.setTag(imageUrl);
 			container.addView(imageView);
 			mImageCycleViewListener.displayImage(imageUrl, imageView);
 			return imageView;

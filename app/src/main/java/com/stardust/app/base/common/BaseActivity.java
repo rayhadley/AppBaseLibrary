@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,22 +28,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+//import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.stardust.app.base.systembartint.SystemBarTintManager;
 
 import com.stardust.app.base.utils.ConnectionUtil;
 import com.stardust.app.base.utils.Debug;
 import com.stardust.app.base.utils.DialogUtil;
 import com.stardust.app.base.R;
+import com.stardust.app.base.utils.StatusBarUtil;
 
 /**
  * 基类
  * 统一处理网络加载处理和标题栏
+ * AppCompatActivity
  *
  * @author 07shou
  */
-public abstract class BaseActivity extends AppCompatActivity implements OnClickListener, ReloadInterface{
+public abstract class BaseActivity extends FragmentActivity implements OnClickListener, ReloadInterface{
 	protected RelativeLayout rootView;
 	protected RelativeLayout rlTitle;
+	protected View divider;
 	protected ImageView ivBack, ivRight;
 	protected TextView tvTitle, tvRight, tvRightNum, tvReload;
 	protected FrameLayout content;
@@ -82,7 +87,34 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	}
 
 	protected void setStatusBarColor(int colorId) {
-		tintManager.setStatusBarTintResource(colorId);//通知栏所需颜色
+		if (Build.VERSION.SDK_INT > 18) {
+			tintManager.setStatusBarTintResource(colorId);//通知栏所需颜色
+		}
+
+	}
+	protected void setStateBarDark(boolean dark) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (dark) {
+				this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+			} else {
+				StatusBarUtil.StatusBarDarkMode(this, 3);
+			}
+
+
+		} else {
+			StatusBarUtil.FlymeSetStatusBarLightMode(this.getWindow(), dark);
+			StatusBarUtil.MIUISetStatusBarLightMode(this, dark);
+		}
+	}
+
+	protected void setTitleBarDark(boolean dark) {
+		ivBack.setImageResource(dark ? R.drawable.ic_back_dack:R.drawable.title_back_icon);
+	}
+
+	protected void setTitleBarTextColor(int colorId) {
+		tvTitle.setTextColor(getResources().getColor(colorId));
+		tvRight.setTextColor(getResources().getColor(colorId));
+		tvReload.setTextColor(getResources().getColor(colorId));
 	}
 
 	protected void setTitleBarColor(int colorId) {
@@ -92,6 +124,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	protected void setTitleBarVisable(boolean visable) {
 		rlTitle.setVisibility(visable ? View.VISIBLE:View.GONE);
 	}
+
+	protected void setTitleBarDividerVisible(boolean visible) {
+		divider.setVisibility(visible?View.VISIBLE:View.GONE);
+	}
+	protected void setTitleBarDividerColor(int colorId) {
+		divider.setBackgroundColor(colorId);
+	}
+
 
 	@TargetApi(19)
 	private void setTranslucentStatus(boolean on) {
@@ -116,6 +156,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 		tvRightNum = (TextView) findViewById(R.id.title_view_tv_num);
 		content = (FrameLayout) findViewById(R.id.base_content);
 		tvReload = (TextView) findViewById(R.id.tvReload);
+		divider = find(R.id.divider);
+		divider.setVisibility(View.GONE);
 		inflater = LayoutInflater.from(this);
 		ivBack.setOnClickListener(this);
 		tvReload.setOnClickListener(this);

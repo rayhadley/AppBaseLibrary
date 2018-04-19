@@ -211,6 +211,7 @@ public class AnimationView extends View {
         mPath.quadTo(mWidthOffset * mWidth, PULL_HEIGHT + (mHeight - PULL_HEIGHT) * 2,
                 mWidth, PULL_HEIGHT);
         canvas.drawPath(mPath, mBackPaint);
+        canvas.drawText("松手刷新", 0, 0, mBackPaint);
     }
 
     private void drawSpring(Canvas canvas, int springDelta) {
