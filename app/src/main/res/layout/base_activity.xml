@@ -8,13 +8,18 @@
     <include
         android:id="@+id/base_in_title"
         layout="@layout/title_view"/>
+    <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+        <!--android:id="@+id/refreshView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <FrameLayout
+            android:id="@+id/base_content"
+            android:layout_below="@+id/base_in_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
-    <FrameLayout
-        android:id="@+id/base_content"
-        android:layout_below="@+id/base_in_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
     <TextView
         android:id="@+id/tvReload"
         android:layout_below="@+id/base_in_title"

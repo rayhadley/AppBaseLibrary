@@ -62,6 +62,15 @@ public final class Permission {
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
     public static final String REQUEST_INSTALL_PACKAGES = "android.permission.REQUEST_INSTALL_PACKAGES";
+    public static final String WAKE_LOCK = "android.permission.WAKE_LOCK";
+    public static final String DISABLE_KEYGUARD = "android.permission.DISABLE_KEYGUARD";
+    public static final String REORDER_TASKS = "android.permission.REORDER_TASKS";
+    public static final String REQUEST_COMPANION_RUN_IN_BACKGROUND = "android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND";
+    public static final String REQUEST_COMPANION_USE_DATA_IN_BACKGROUND = "android.permission.REQUEST_COMPANION_USE_DATA_IN_BACKGROUND";
+    public static final String REQUEST_DELETE_PACKAGES = "android.permission.REQUEST_DELETE_PACKAGES";
+    public static final String REQUEST_IGNORE_BATTERY_OPTIMIZATIONS = "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS";
+    public static final String BIND_DEVICE_ADMIN = "android.permission.BIND_DEVICE_ADMIN";//锁屏显示界面
+    public static final String SYSTEM_ALERT_WINDOW = "android.permission.SYSTEM_ALERT_WINDOW";//悬浮窗显示权限
 
     public static final class Group {
         public static final String[] CALENDAR = new String[]{
@@ -104,6 +113,24 @@ public final class Permission {
                 Permission.WRITE_EXTERNAL_STORAGE};
 
         public static final String[] INSTALL_PACKAGES = new String[]{Permission.REQUEST_INSTALL_PACKAGES};
+        public static final String[] WAKE_LOCK = new String[]{Permission.WAKE_LOCK};
+        public static final String[] DISABLE_KEYGUARD = new String[]{Permission.DISABLE_KEYGUARD};
+        public static final String[] BIND_DEVICE_ADMIN = new String[]{Permission.BIND_DEVICE_ADMIN};
+        public static final String[] SYSTEM_ALERT_WINDOW = new String[]{Permission.SYSTEM_ALERT_WINDOW};
+        /**
+         *     public static final String REORDER_TASKS = "android.permission.REORDER_TASKS";
+         public static final String REQUEST_COMPANION_RUN_IN_BACKGROUND = "android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND";
+         public static final String REQUEST_COMPANION_USE_DATA_IN_BACKGROUND = "android.permission.REQUEST_COMPANION_USE_DATA_IN_BACKGROUND";
+         public static final String REQUEST_DELETE_PACKAGES = "android.permission.REQUEST_DELETE_PACKAGES";
+         public static final String REQUEST_IGNORE_BATTERY_OPTIMIZATIONS = "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS";
+         * */
+        public static final String[] REORDER_TASKS_RUN_IN_BACKGROUND = new String[]{
+                REORDER_TASKS,
+                REQUEST_COMPANION_RUN_IN_BACKGROUND,
+                REQUEST_COMPANION_USE_DATA_IN_BACKGROUND,
+                REQUEST_DELETE_PACKAGES,
+                REQUEST_IGNORE_BATTERY_OPTIMIZATIONS};
+
     }
 
     /**

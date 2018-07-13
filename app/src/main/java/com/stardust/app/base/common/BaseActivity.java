@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.stardust.app.base.systembartint.SystemBarTintManager;
 
 import com.stardust.app.base.utils.ConnectionUtil;
@@ -57,6 +58,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 	protected Context mContext;
 	protected DialogUtil dialogUtil;
 	protected Dialog dialog;
+//	protected RefreshLayout mRefreshLayout;
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -156,11 +158,14 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 		tvRightNum = (TextView) findViewById(R.id.title_view_tv_num);
 		content = (FrameLayout) findViewById(R.id.base_content);
 		tvReload = (TextView) findViewById(R.id.tvReload);
+//		mRefreshLayout = (RefreshLayout)findViewById(R.id.refreshView);
 		divider = find(R.id.divider);
 		divider.setVisibility(View.GONE);
 		inflater = LayoutInflater.from(this);
 		ivBack.setOnClickListener(this);
 		tvReload.setOnClickListener(this);
+//		mRefreshLayout.setEnableLoadmore(false);
+//		mRefreshLayout.setEnableRefresh(false);
 
 	}
 
