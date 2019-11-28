@@ -16,6 +16,7 @@
     <color name="color666666">#666666</color>
     <color name="color333333">#333333</color>
     <color name="colorTransparent">@android:color/transparent</color>
+    <color name="transparent">#00000000</color>
 
     <!-- 以下 内容 有时间再处理 -->
 

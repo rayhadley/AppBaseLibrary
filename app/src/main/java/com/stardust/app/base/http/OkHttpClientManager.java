@@ -16,7 +16,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import com.stardust.app.base.utils.Debug;
+import com.stardust.app.base.utils.L;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,8 +34,6 @@ import java.net.URLConnection;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -44,9 +42,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -84,16 +80,16 @@ public class OkHttpClientManager
             mOkHttpClient.setHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
-                    Debug.show("hostname:" + hostname);
+                    L.show("hostname:" + hostname);
                     return true;
                 }
             });
 
         } catch (NoSuchAlgorithmException e) {
-            Debug.show("NoSuchAlgorithmException:" + e.getMessage());
+            L.show("NoSuchAlgorithmException:" + e.getMessage());
             e.printStackTrace();
         } catch (KeyManagementException e) {
-            Debug.show("KeyManagementException:" + e.getMessage());
+            L.show("KeyManagementException:" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -252,6 +248,21 @@ public class OkHttpClientManager
     }
 
     /**
+     * 异步基于post的文件上传 带进度显示
+     *
+     * @param url
+     * @param callback
+     * @param files
+     * @param fileKeys
+     * @throws IOException
+     */
+    private void _postAsynProgress(String url, ResultCallback callback, File[] files, String[] fileKeys, FileProgressRequestBody.ProgressListener listener, Param... params) throws IOException
+    {
+        Request request = buildMultipartFormProgressRequest(url, files, fileKeys, listener, params);
+        deliveryResult(callback, request);
+    }
+
+    /**
      * 异步基于post的文件上传，单文件不带参数上传
      *
      * @param url
@@ -263,6 +274,21 @@ public class OkHttpClientManager
     private void _postAsyn(String url, ResultCallback callback, File file, String fileKey) throws IOException
     {
         Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, null);
+        deliveryResult(callback, request);
+    }
+
+    /**
+     * 异步基于post的文件上传，单文件不带参数  带进度  上传
+     *
+     * @param url
+     * @param callback
+     * @param file
+     * @param fileKey
+     * @throws IOException
+     */
+    private void _postAsynProgress(String url, ResultCallback callback, File file, String fileKey, FileProgressRequestBody.ProgressListener listene) throws IOException
+    {
+        Request request = buildMultipartFormProgressRequest(url, new File[]{file}, new String[]{fileKey}, listene, null);
         deliveryResult(callback, request);
     }
 
@@ -279,6 +305,22 @@ public class OkHttpClientManager
     private void _postAsyn(String url, ResultCallback callback, File file, String fileKey, Param... params) throws IOException
     {
         Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, params);
+        deliveryResult(callback, request);
+    }
+
+    /**
+     * 异步基于post的文件上传，单文件且携带其他form参数上传  带进度
+     *
+     * @param url
+     * @param callback
+     * @param file
+     * @param fileKey
+     * @param params
+     * @throws IOException
+     */
+    private void _postAsynProgress(String url, ResultCallback callback, File file, String fileKey, FileProgressRequestBody.ProgressListener listene, Param... params) throws IOException
+    {
+        Request request = buildMultipartFormProgressRequest(url, new File[]{file}, new String[]{fileKey}, listene, params);
         deliveryResult(callback, request);
     }
 
@@ -303,6 +345,78 @@ public class OkHttpClientManager
      */
     private void _downloadAsyn(final String url, final String destFileDir, final ResultCallback callback, final ProgressInterface progressInterface)
     {
+        getInstance()._downloadAsyn(url, destFileDir, getFileName(url), callback, progressInterface);
+//        final Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//        final Call call = mOkHttpClient.newCall(request);
+//        call.enqueue(new Callback()
+//        {
+//            @Override
+//            public void onFailure(final Request request, final IOException e)
+//            {
+//                sendFailedStringCallback(request, e, callback);
+//            }
+//
+//            @Override
+//            public void onResponse(Response response)
+//            {
+//                InputStream is = null;
+//                byte[] buf = new byte[2048];
+//                int len = 0;
+//                FileOutputStream fos = null;
+//                try
+//                {
+//                    is = response.body().byteStream();
+//                    File file = new File(destFileDir, getFileName(url));
+//                    fos = new FileOutputStream(file);
+//                    long total = response.body().contentLength();
+//                    L.show("total:" +total);
+//                    long curSize = 0;
+//                    while ((len = is.read(buf)) != -1)
+//                    {
+//                        fos.write(buf, 0, len);
+//                        curSize+= len;
+//                        if (progressInterface != null) {
+//                            progressInterface.progress(curSize, total);
+//                        }
+//
+//                    }
+//                    fos.flush();
+//                    //如果下载文件成功，第一个参数为文件的绝对路径
+//                    sendSuccessResultCallback(file.getAbsolutePath(), callback);
+//                } catch (IOException e)
+//                {
+//                    sendFailedStringCallback(response.request(), e, callback);
+//                } finally
+//                {
+//                    try
+//                    {
+//                        if (is != null) is.close();
+//                    } catch (IOException e)
+//                    {
+//                    }
+//                    try
+//                    {
+//                        if (fos != null) fos.close();
+//                    } catch (IOException e)
+//                    {
+//                    }
+//                }
+//
+//            }
+//        });
+    }
+
+    /**
+     * 异步下载文件
+     *
+     * @param url
+     * @param destFileDir 本地文件存储的文件夹
+     * @param callback
+     */
+    private void _downloadAsyn(final String url, final String destFileDir, final String saveFileName, final ResultCallback callback, final ProgressInterface progressInterface)
+    {
         final Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -325,10 +439,10 @@ public class OkHttpClientManager
                 try
                 {
                     is = response.body().byteStream();
-                    File file = new File(destFileDir, getFileName(url));
+                    File file = new File(destFileDir, saveFileName);
                     fos = new FileOutputStream(file);
                     long total = response.body().contentLength();
-                    Debug.show("total:" +total);
+                    L.show("total:" +total);
                     long curSize = 0;
                     while ((len = is.read(buf)) != -1)
                     {
@@ -516,9 +630,33 @@ public class OkHttpClientManager
     {
         getInstance()._postAsyn(url, callback, file, fileKey, params);
     }
+
+
+    public static void uploadProgress(String url, ResultCallback callback, File[] files, String[] fileKeys, FileProgressRequestBody.ProgressListener listener, Param... params) throws IOException
+    {
+        getInstance()._postAsynProgress(url, callback, files, fileKeys, listener, params);
+    }
+
+
+    public static void uploadProgress(String url, ResultCallback callback, File file, String fileKey, FileProgressRequestBody.ProgressListener listener) throws IOException
+    {
+        getInstance()._postAsynProgress(url, callback, file, fileKey, listener);
+    }
+
+
+    public static void uploadProgress(String url, ResultCallback callback, File file, String fileKey, FileProgressRequestBody.ProgressListener listener, Param... params) throws IOException
+    {
+        getInstance()._postAsynProgress(url, callback, file, fileKey, listener, params);
+    }
+
     public static void downloadAsyn(String url, String destDir, ResultCallback callback)
     {
         getInstance()._downloadAsyn(url, destDir, callback);
+    }
+
+    public static void downloadAsyn(String url, String destDir, String saveFileName, ResultCallback callback)
+    {
+        getInstance()._downloadAsyn(url, destDir, saveFileName, callback, null);
     }
 
     public static void downloadAsyn(String url, String destDir, ResultCallback callback, ProgressInterface progressInterface)
@@ -526,9 +664,16 @@ public class OkHttpClientManager
         getInstance()._downloadAsyn(url, destDir, callback, progressInterface);
     }
 
+    public static void downloadAsyn(String url, String destDir, String saveFileName, ResultCallback callback, ProgressInterface progressInterface)
+    {
+        getInstance()._downloadAsyn(url, destDir, saveFileName, callback, progressInterface);
+    }
     //****************************
 
 
+    /**
+     * 文件上传请求（没有进度）
+     * **/
     private Request buildMultipartFormRequest(String url, File[] files,
                                               String[] fileKeys, Param[] params)
     {
@@ -550,6 +695,46 @@ public class OkHttpClientManager
                 File file = files[i];
                 String fileName = file.getName();
                 fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                //TODO 根据文件名设置contentType
+                builder.addPart(Headers.of("Content-Disposition",
+                        "form-data; name=\"" + fileKeys[i] + "\"; filename=\"" + fileName + "\""),
+                        fileBody);
+            }
+        }
+
+        RequestBody requestBody = builder.build();
+        return new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+    }
+
+
+    /**
+     * 文件上传请求（有进度反馈）
+     * **/
+    private Request buildMultipartFormProgressRequest(String url, File[] files,
+                                              String[] fileKeys, FileProgressRequestBody.ProgressListener listener, Param[] params)
+    {
+        params = validateParam(params);
+
+        MultipartBuilder builder = new MultipartBuilder()
+                .type(MultipartBuilder.FORM);
+
+        for (Param param : params)
+        {
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key + "\""),
+                    RequestBody.create(null, param.value));
+        }
+        if (files != null)
+        {
+            FileProgressRequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++)
+            {
+                File file = files[i];
+                String fileName = file.getName();
+//                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                fileBody = new FileProgressRequestBody(file,"application/octet-stream",listener);
                 //TODO 根据文件名设置contentType
                 builder.addPart(Headers.of("Content-Disposition",
                         "form-data; name=\"" + fileKeys[i] + "\"; filename=\"" + fileName + "\""),

@@ -2,7 +2,7 @@ package com.stardust.app.base.utils;
 
 import android.util.Log;
 
-public class Debug {
+public class L {
     private static String TAG = "aaa";
     private static boolean showLog = true;
     public static void initDebug(String tag) {

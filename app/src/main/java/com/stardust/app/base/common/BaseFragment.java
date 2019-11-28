@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.stardust.app.base.R;
 import com.stardust.app.base.utils.ConnectionUtil;
-import com.stardust.app.base.utils.Debug;
+import com.stardust.app.base.utils.L;
 import com.stardust.app.base.utils.DialogUtil;
 
 /**
@@ -50,7 +50,6 @@ public abstract class BaseFragment extends Fragment {
 		vgLoading = (ViewGroup) vgContainer.findViewById(R.id.base_in_loading);
 		dialogUtil = new DialogUtil();
 		onContentCreate(inflater, container, savedInstanceState);
-		initUI(vgContainer);
 		return vgContainer;
 //		return super.onCreateView(inflater, vgContainer, savedInstanceState);
 	}
@@ -64,8 +63,6 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		initValue();
 	}
 
 //	@Override
@@ -85,11 +82,18 @@ public abstract class BaseFragment extends Fragment {
 	
 	public void addContentView(int layoutResId) {
 		inflater.inflate(layoutResId, vgContainer, true);
+		initUI(vgContainer);
+		initViewModel();
+		subscriptionData();
 	}
 
 	protected abstract void initValue();
 
 	protected abstract void initUI(View view);
+
+	protected abstract void initViewModel();
+
+	protected abstract void subscriptionData();
 	
 	/*
 	 * 显示加载提示
@@ -141,7 +145,7 @@ public abstract class BaseFragment extends Fragment {
 		Toast.makeText(mContext, content, Toast.LENGTH_LONG).show();
 	}
 	protected void showLog(String msg){
-		Debug.show(msg);
+		L.show(msg);
 	}
 
 	protected boolean isConnection() {

@@ -27,8 +27,7 @@ public class DialogUtil {
 	 */
 	public Dialog sureDialog(Context context, String msg, OnClickListener listener) {
 		View v = LayoutInflater.from(context).inflate(R.layout.dialog_sure_view, null);
-		//v.findViewById(R.id.dialog_tv_cancel).setOnClickListener(listener);
-		TextView tv = (TextView) v.findViewById(R.id.dialog_tv_title);
+		TextView tv = v.findViewById(R.id.dialog_tv_title);
 		tv.setText(msg);
 		v.findViewById(R.id.dialog_tv_sure).setOnClickListener(listener);
 		
@@ -94,7 +93,7 @@ public class DialogUtil {
 
 	public Dialog progressDialog(Context context, String noteMessage, OnClickListener listener) {
 		View v = LayoutInflater.from(context).inflate(R.layout.progress_dialog_view, null);
-		TextView textView = (TextView)v.findViewById(R.id.tvMessage);
+		TextView textView = v.findViewById(R.id.tvMessage);
 		if (TextUtils.isEmpty(noteMessage)) {
 			textView.setText("");
 		} else {

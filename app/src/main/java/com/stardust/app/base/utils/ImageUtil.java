@@ -33,6 +33,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.stardust.app.base.R;
+import com.stardust.app.base.http.AuthImageDownloader;
 import com.stardust.app.base.view.CircleDrawable;
 
 import java.io.ByteArrayInputStream;
@@ -55,7 +56,7 @@ import java.util.List;
 public class ImageUtil {
 
     /***
-     * 要使用工具需要先在application中调用该初始化方法
+     * 要使用工具需要先在application中调用该初始化方法  http 显示
      */
     public static void init(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
@@ -68,6 +69,25 @@ public class ImageUtil {
                 .memoryCacheExtraOptions(200, 200)  // 设定缓存在内存的图片大小最大为200x200
                 .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
                 .tasksProcessingOrder(QueueProcessingType.LIFO)// 设置图片下载和显示的工作队列排序
+                .build();
+        ImageLoader.getInstance().init(config);
+    }
+
+    /***
+     * 要使用工具需要先在application中调用该初始化方法  https 显示
+     */
+    public static void initHttps(Context context) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                context)
+                .threadPoolSize(3) // 设置线程数量为3
+                .threadPriority(Thread.NORM_PRIORITY - 2)// 设置线程的优先级
+                .denyCacheImageMultipleSizesInMemory()// 当同一个Uri获取不同大小的图片，缓存到内存时，只缓存一个。默认会缓存多个不同的大小的相同图片
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())// 设置缓存文件的名字
+                .discCacheFileCount(160)// 缓存文件的最大个数
+                .memoryCacheExtraOptions(200, 200)  // 设定缓存在内存的图片大小最大为200x200
+                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
+                .tasksProcessingOrder(QueueProcessingType.LIFO)// 设置图片下载和显示的工作队列排序
+                .imageDownloader(new AuthImageDownloader(context))       //替换允许Https的图片加载
                 .build();
         ImageLoader.getInstance().init(config);
     }
@@ -711,7 +731,7 @@ public class ImageUtil {
         String[] videoCursorCols = new String[] { MediaStore.Video.Media._ID, MediaStore.Video.Media.DISPLAY_NAME, MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DURATION, MediaStore.Video.Media.ARTIST, MediaStore.Video.Media.ALBUM, MediaStore.Video.Media.RESOLUTION, MediaStore.Video.Media.MIME_TYPE, MediaStore.Video.Media.SIZE, MediaStore.Video.Media.DATA };
 
         Cursor cursor = context.getContentResolver().query(uri, videoCursorCols, null, null, null);
-        Debug.show("cursor==null" + (cursor == null));
+        L.show("cursor==null" + (cursor == null));
         double durationTime= 0l;
         if (cursor != null) {
             cursor.moveToFirst();

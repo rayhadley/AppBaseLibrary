@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.stardust.app.base.systembartint.SystemBarTintManager;
 
 import com.stardust.app.base.utils.ConnectionUtil;
-import com.stardust.app.base.utils.Debug;
+import com.stardust.app.base.utils.L;
 import com.stardust.app.base.utils.DialogUtil;
 import com.stardust.app.base.R;
 import com.stardust.app.base.utils.StatusBarUtil;
@@ -74,6 +70,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 	protected abstract void initValue();
 
 	protected abstract void initUI();
+
+	protected abstract void initViewModel();
+
+	protected abstract void subscriptionData();
 
 	/**
 	 *动态状态栏 背景色
@@ -176,6 +176,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 	protected void addContentView(int resId) {
 		View view = inflater.inflate(resId, null);
 		content.addView(view);
+		initUI();
+		initViewModel();
+		subscriptionData();
 	}
 
 	/*
@@ -265,7 +268,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 		}
 	}
 	protected void showLog(String msg){
-		Debug.show(msg);
+		L.show(msg);
 	}
 
 	protected boolean isConnection() {

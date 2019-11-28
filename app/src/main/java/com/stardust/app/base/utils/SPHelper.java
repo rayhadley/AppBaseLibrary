@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  * 
  */
 public class SPHelper {
-	public static final String SP_NAME = "com.shou.driverms.sp";
+	public static final String SP_NAME = "sp_default";
 	private SharedPreferences sp;
 	private static SPHelper instance;
 

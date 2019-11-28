@@ -28,9 +28,7 @@ import java.util.List;
  * @类型名称：PermissionsChecker
  * @since 2.5.0
  */
-public class CheckPermissionsActivity extends BaseActivity
-		implements
-			ActivityCompat.OnRequestPermissionsResultCallback {
+public class CheckPermissionsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	/**
 	 * 需要进行检测的权限数组
 	 */
@@ -175,6 +173,16 @@ public class CheckPermissionsActivity extends BaseActivity
 
 	@Override
 	protected void initUI() {
+
+	}
+
+	@Override
+	protected void initViewModel() {
+
+	}
+
+	@Override
+	protected void subscriptionData() {
 
 	}
 
