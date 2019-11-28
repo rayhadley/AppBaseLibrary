@@ -24,6 +24,7 @@ import com.stardust.app.base.R;
 public class DialogUtil {
 	/*
 	 * 初始化设置dialog
+	 *
 	 */
 	public Dialog sureDialog(Context context, String msg, OnClickListener listener) {
 		View v = LayoutInflater.from(context).inflate(R.layout.dialog_sure_view, null);
