@@ -58,7 +58,7 @@ public class NetworkUtils {
             if (connectivity != null) {
                 NetworkInfo info = connectivity.getActiveNetworkInfo();
                 if (info != null && info.isConnected()) {
-                    Debug.show("network info:" + FastJsonUtil.toJSONString(info));
+                    L.show("network info:" + FastJsonUtil.toJSONString(info));
                     if (info.getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
@@ -207,7 +207,7 @@ public class NetworkUtils {
             if (connectivity != null) {
                 NetworkInfo info = connectivity.getActiveNetworkInfo();
                 if (info != null && info.isConnected()) {
-                    Debug.show("network info:" + FastJsonUtil.toJSONString(info));
+                    L.show("network info:" + FastJsonUtil.toJSONString(info));
                     return info;
                 }
             }

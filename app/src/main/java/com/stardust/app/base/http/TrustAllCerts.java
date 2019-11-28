@@ -1,7 +1,5 @@
 package com.stardust.app.base.http;
 
-import com.stardust.app.base.utils.Debug;
-
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 

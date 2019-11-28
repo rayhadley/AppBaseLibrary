@@ -10,7 +10,6 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.*;
 import android.provider.ContactsContract.CommonDataKinds.*;
 import android.text.TextUtils;
-import android.util.Log;
 
 
 /**
@@ -102,7 +101,7 @@ public class ContactUtil {
         while (cursor.moveToNext()) {
             //根据id获取手机号码，手机号码表和用户资料表根据id关联
             contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-//            Debug.show("contactId---------------:" + contactId);
+//            L.show("contactId---------------:" + contactId);
             // 获取RawContacts表的游标
             Cursor rawContactCur = cr.query(RawContacts.CONTENT_URI, null,
                     RawContacts.CONTACT_ID + " =?", new String[] { contactId }, null);
@@ -111,7 +110,7 @@ public class ContactUtil {
                 // 读取第一条记录的RawContacts._ID列的值
                 rawContactId = rawContactCur.getString(rawContactCur
                         .getColumnIndex(RawContacts._ID));
-//                Debug.show("rawContactId---------------:" + rawContactId);
+//                L.show("rawContactId---------------:" + rawContactId);
             }
             // 关闭游标
             rawContactCur.close();
@@ -180,7 +179,7 @@ public class ContactUtil {
         while (cursor.moveToNext()) {
             //根据id获取手机号码，手机号码表和用户资料表根据id关联
             contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            Debug.show("contactId---------------:" + contactId);
+            L.show("contactId---------------:" + contactId);
             // 获取RawContacts表的游标
             Cursor rawContactCur = cr.query(RawContacts.CONTENT_URI, null,
                     RawContacts.CONTACT_ID + " =?", new String[] { contactId }, null);
@@ -189,7 +188,7 @@ public class ContactUtil {
                 // 读取第一条记录的RawContacts._ID列的值
                 rawContactId = rawContactCur.getString(rawContactCur
                         .getColumnIndex(RawContacts._ID));
-                Debug.show("rawContactId---------------:" + rawContactId);
+                L.show("rawContactId---------------:" + rawContactId);
             }
             // 关闭游标
             rawContactCur.close();
@@ -248,7 +247,7 @@ public class ContactUtil {
         // Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         //根据传入的姓名查询通讯录，这个姓名就是上一个activity传过来的参数
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, ContactsContract.PhoneLookup.DISPLAY_NAME +" =?",new String[]{name}, null);
-//        Debug.show("———-cursor——-" + cursor);
+//        L.show("———-cursor——-" + cursor);
         //向下移动光标
         while (cursor.moveToNext()) {
             result = true;

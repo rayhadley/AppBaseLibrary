@@ -3,6 +3,7 @@ package com.stardust.app.base.common;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -250,9 +251,11 @@ public class PopDialogFullScreen {
 			pop.setAnimationStyle(R.style.popwin_anim_right_in);//
 //			pop.showAsDropDown(view, 0, 0);
 			if (android.os.Build.VERSION.SDK_INT >=24) {
-				int[] a = new int[2];
-				view.getLocationInWindow(a);
-				pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+				Rect visibleFrame = new Rect();
+				view.getGlobalVisibleRect(visibleFrame);
+				int height = view.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+				pop.setHeight(height);
+				pop.showAsDropDown(view, 0, 0);
 			} else{
 				pop.showAsDropDown(view);
 			}
@@ -262,9 +265,11 @@ public class PopDialogFullScreen {
 			} else {
 //				pop.showAsDropDown(view, 0, 0);
 				if (android.os.Build.VERSION.SDK_INT >=24) {
-					int[] a = new int[2];
-					view.getLocationInWindow(a);
-					pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+					Rect visibleFrame = new Rect();
+					view.getGlobalVisibleRect(visibleFrame);
+					int height = view.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+					pop.setHeight(height);
+					pop.showAsDropDown(view, 0, 0);;
 				} else{
 					pop.showAsDropDown(view);
 				}
@@ -301,9 +306,14 @@ public class PopDialogFullScreen {
 				}
 			});
 			if (android.os.Build.VERSION.SDK_INT >=24) {
-				int[] a = new int[2];
-				view.getLocationInWindow(a);
-				pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+//				int[] a = new int[2];
+//				view.getLocationInWindow(a);
+//				pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+				Rect visibleFrame = new Rect();
+				view.getGlobalVisibleRect(visibleFrame);
+				int height = view.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+				pop.setHeight(height);
+				pop.showAsDropDown(view, 0, 0);
 			} else{
 				pop.showAsDropDown(view);
 			}
@@ -314,9 +324,14 @@ public class PopDialogFullScreen {
 			} else {
 //				pop.showAsDropDown(view, 0, 0);
 				if (android.os.Build.VERSION.SDK_INT >=24) {
-					int[] a = new int[2];
-					view.getLocationInWindow(a);
-					pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+//					int[] a = new int[2];
+//					view.getLocationInWindow(a);
+//					pop.showAtLocation(((Activity) mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0 , a[1]+view.getHeight());
+					Rect visibleFrame = new Rect();
+					view.getGlobalVisibleRect(visibleFrame);
+					int height = view.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+					pop.setHeight(height);
+					pop.showAsDropDown(view, 0, 0);
 				} else{
 					pop.showAsDropDown(view);
 				}

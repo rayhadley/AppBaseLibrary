@@ -2,16 +2,18 @@ package com.stardust.app.base.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.http.SslError;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.stardust.app.base.utils.Debug;
+import com.stardust.app.base.utils.L;
 
 /**
  * 适应手机屏幕
@@ -75,6 +77,16 @@ public class CustomWebView extends WebView{
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setUseWideViewPort(true);// 这个很关键
+        webSettings.setBlockNetworkImage(false);//解决图片不显示
+        webSettings.setAllowFileAccess(true);//允许访问文件
+
+//        webSettings.setMediaPlaybackRequiresUserGesture(true);//设置WebView是否通过手势触发播放媒体，默认是true，需要手势触发。
+        webSettings.setPluginState(WebSettings.PluginState.ON);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         if (Build.VERSION.SDK_INT >=19) {
             webSettings.setLoadsImagesAutomatically(true);
@@ -87,9 +99,9 @@ public class CustomWebView extends WebView{
         this.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                Debug.show("newProgress:" + newProgress);
+                L.show("newProgress:" + newProgress);
                 if (newProgress == 100) {
-                    Debug.show("(onPageLoadFinished == null):" + (onPageLoadFinished == null));
+                    L.show("(onPageLoadFinished == null):" + (onPageLoadFinished == null));
                     if (onPageLoadFinished != null) {
                         onPageLoadFinished.onLoadingFinish();
                     }
@@ -108,6 +120,11 @@ public class CustomWebView extends WebView{
 
             @Override
             public void onPageFinished(WebView view, String url) {
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
         });
 
