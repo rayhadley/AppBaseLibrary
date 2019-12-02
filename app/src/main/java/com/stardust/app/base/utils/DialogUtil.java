@@ -37,6 +37,7 @@ public class DialogUtil {
 		
 		//Window window = dialog.getWindow();
 		//setDialogWindowParams(window);
+		//測試測試測是測試彩色
 		
 		return dialog;
 	}
