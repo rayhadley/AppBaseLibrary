@@ -32,6 +32,11 @@ public class HttpsUtils
         public X509TrustManager trustManager;
     }
 
+
+    private void test(){
+
+    }
+
     public static SSLParams getSslSocketFactory(InputStream[] certificates, InputStream bksFile, String password)
     {
         SSLParams sslParams = new SSLParams();
