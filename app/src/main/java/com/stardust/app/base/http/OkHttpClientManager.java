@@ -419,6 +419,7 @@ public class OkHttpClientManager
     {
         final Request request = new Request.Builder()
                 .url(url)
+                .addHeader("Accept-Encoding", "identity")
                 .build();
         final Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback()
@@ -449,7 +450,7 @@ public class OkHttpClientManager
                         fos.write(buf, 0, len);
                         curSize+= len;
                         if (progressInterface != null) {
-                            progressInterface.progress(curSize, total);
+                            progressInterface.progress(curSize, total, call);
                         }
 
                     }
