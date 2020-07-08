@@ -27,6 +27,7 @@ import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -46,7 +47,8 @@ public class OkHttpUtil2 {
     private static OkHttpUtil2 mInstance;
     private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
-    private OkHttpUtil2() {
+    private OkHttpUtil2(Interceptor interceptor) {
+
         //添加cookie
         okHttpClient = new OkHttpClient.Builder().cookieJar(new CookieJar() {
             @Override
@@ -60,10 +62,11 @@ public class OkHttpUtil2 {
                 List<Cookie> cookies = cookieStore.get(url.host());
                 return cookies != null ? cookies : new ArrayList<Cookie>();
             }
-        }).build();
+        }).addInterceptor(interceptor).build();
         handler = new Handler(Looper.getMainLooper());
         gson = new Gson();
     }
+
 
     /**
      * 单例模式创建OkHttpUtil
@@ -73,7 +76,21 @@ public class OkHttpUtil2 {
     public static OkHttpUtil2 getInstance() {
         if (mInstance == null) {
             synchronized (OkHttpUtil2.class) {
-                mInstance = new OkHttpUtil2();
+                mInstance = new OkHttpUtil2(null);
+            }
+        }
+        return mInstance;
+    }
+
+    /**
+     * 单例模式创建OkHttpUtil
+     *
+     * @return mInstance
+     */
+    public static OkHttpUtil2 getInstance(Interceptor interceptor) {
+        if (mInstance == null) {
+            synchronized (OkHttpUtil2.class) {
+                mInstance = new OkHttpUtil2(interceptor);
             }
         }
         return mInstance;
