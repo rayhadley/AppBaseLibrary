@@ -67,7 +67,6 @@ public class OkHttpUtil2 {
         gson = new Gson();
     }
 
-
     /**
      * 单例模式创建OkHttpUtil
      *
