@@ -15,7 +15,7 @@
  */
 package com.stardust.app.base.permission;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.stardust.app.base.permission.checker.PermissionChecker;
 import com.stardust.app.base.permission.checker.StrictChecker;

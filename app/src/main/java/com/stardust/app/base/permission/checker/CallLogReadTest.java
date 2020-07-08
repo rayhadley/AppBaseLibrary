@@ -19,7 +19,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 
 import com.stardust.app.base.permission.Permission;
 

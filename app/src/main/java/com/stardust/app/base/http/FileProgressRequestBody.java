@@ -1,13 +1,13 @@
 package com.stardust.app.base.http;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.internal.Util;
 import com.stardust.app.base.utils.L;
 
 import java.io.File;
 import java.io.IOException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.internal.Util;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;

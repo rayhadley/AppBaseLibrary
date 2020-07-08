@@ -1,11 +1,14 @@
 package com.stardust.app.base.http.progress;
 
-
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.Request;
+//
+//import com.squareup.okhttp.HttpUrl;
+//import com.squareup.okhttp.Request;
 
 //import okhttp3.HttpUrl;
 //import okhttp3.Request;
+
+import okhttp3.HttpUrl;
+import okhttp3.Request;
 
 public final class RequestFilters {
 
@@ -37,7 +40,7 @@ public final class RequestFilters {
     }
 
     public static RequestFilter matchesUrl(final Request request) {
-        return matchesUrl(request.httpUrl());
+        return matchesUrl(request.url());
     }
 
     public static RequestFilter matchesUrl(HttpUrl url) {

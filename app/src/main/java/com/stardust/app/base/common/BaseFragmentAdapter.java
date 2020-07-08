@@ -1,16 +1,21 @@
 package com.stardust.app.base.common;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-
+//import androidx.core.app.Fragment;
+//import androidx.core.app.FragmentManager;
+//import androidx.core.app.FragmentPagerAdapter;
+//
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 public class BaseFragmentAdapter extends FragmentPagerAdapter {
 	private List<Fragment> fragments;
 
-	public BaseFragmentAdapter(FragmentManager fm) {
-		super(fm);
+
+	public BaseFragmentAdapter(FragmentManager fm, int i) {
+		super(fm, i);
 	}
 
 	public BaseFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {

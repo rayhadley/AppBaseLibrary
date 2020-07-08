@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.stardust.app.base.permission.SettingService;
 import com.stardust.app.base.permission.source.Source;

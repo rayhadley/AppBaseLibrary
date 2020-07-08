@@ -284,7 +284,8 @@ public class BitmapUtils {
 			mCanvas.drawText(title, w / 2, 25, textPaint);
 
 		}
-		mCanvas.save(Canvas.ALL_SAVE_FLAG);
+//		mCanvas.save(Canvas.ALL_SAVE_FLAG);
+		mCanvas.save();
 		mCanvas.restore();
 		return newBitmap;
 	}

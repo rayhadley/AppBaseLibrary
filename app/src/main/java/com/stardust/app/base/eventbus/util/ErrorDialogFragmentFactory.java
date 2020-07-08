@@ -19,11 +19,9 @@ package com.stardust.app.base.eventbus.util;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
-import com.stardust.app.base.eventbus.util.ErrorDialogConfig;
-import com.stardust.app.base.eventbus.util.ErrorDialogFragments;
-import com.stardust.app.base.eventbus.util.ThrowableFailureEvent;
+import androidx.fragment.app.Fragment;
+
 
 /**
  * Factory to allow injecting a more complex exception mapping; typically you would subclass one of {@link Honeycomb} or
